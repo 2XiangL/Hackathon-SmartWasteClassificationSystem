@@ -1,1 +1,2 @@
 # Hackathon-SmartWasteClassificationSystem
+Team Members:
