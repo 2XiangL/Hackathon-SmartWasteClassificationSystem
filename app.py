@@ -65,3 +65,45 @@ if __name__ == "__main__":
             st.markdown("---")
 
             st.markdown("## Category analysis")
+
+            with st.spinner("Analyzing by Qwen......"):
+
+                client = init_llm(api_key)
+
+                response = client.chat.completions.create(
+                    model="qwen3-omni-flash",
+                    messages=[
+                        {"role": "system", "content": chat_template},
+                        {"role": "user", "content": unique_classes_text},
+                    ],
+                    stream=False
+                )
+
+            st.markdown(response.choices[0].message.content)
+
+            st.markdown("---")
+
+            st.markdown("## Carbon footprint analysis")
+
+            with st.spinner("Analyzing by Qwen......"):
+                base64_image = encode_image(image, ext)
+
+                response = client.chat.completions.create(
+                    model="qwen3-omni-flash",
+                    messages=[
+                        {"role": "system", "content": image_template},
+                        {"role": "user", "content": 
+                            [
+                                {
+                                    "type": "image_url",
+                                    "image_url": {"url": f"data:image/{ext};base64,{base64_image}"}, 
+                                }
+                            ]},
+                    ],
+                    stream=False
+                )
+
+            st.markdown(response.choices[0].message.content)
+
+        else:
+            st.write("No target was detected")
